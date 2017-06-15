@@ -1,0 +1,31 @@
+{
+  "intents": [
+    {
+      "intent": "AMAZON.PauseIntent"
+    },
+    {
+      "intent": "AMAZON.ResumeIntent"
+    },
+    {
+      "slots": [
+        {
+          "name": "Movies",
+          "type": "LIST_OF_MOVIES"
+        }
+      ],
+      "intent": "GetMovie"
+    },
+    {
+      "slots": [
+        {
+          "name": "Genres",
+          "type": "LIST_OF_GENRES"
+        }
+      ],
+      "intent": "GetGenres"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    }
+  ]
+}
