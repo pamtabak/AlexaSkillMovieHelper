@@ -55,22 +55,44 @@ def handle_session_end_request():
         card_title, speech_output, None, should_end_session))
 
 def set_genre_in_session(intent, session):
-
     card_title = intent['name']
     session_attributes = {}
     should_end_session = False
 
     if 'Genres' in intent['slots']:
-        print(intent['slots']['Genres'])
         chosen_genre = intent['slots']['Genres']['value']
         print(chosen_genre)
         session_attributes = create_genre_attributes(chosen_genre)
         speech_output = "I now know you want to watch a " + chosen_genre
-        reprompt_text = ""
+        reprompt_text = "I now know you want to watch a " + chosen_genre
+        if (chosen_genre == "musical"):
+            speech_output += ". I would recommend La La Land and Mamma Mia. Would you like to hear more about them?"
+        elif (chosen_genre == "thriller"):
+            speech_output += ". I have to admit that I do not link scary movies, so I suggest you choose another genre."
     else:
         speech_output = "I'm not sure what kind of movie you want to watch. " \
                         "Please try again."
         reprompt_text = "I'm not sure what kind of movie you want to watch." \
+                        "You can tell me which kind of movie you want to watch by saying I want to watch a romance."
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def set_movie_in_session(intent, session):
+    card_title = intent['name']
+    session_attributes = {}
+    should_end_session = False
+
+    if 'Movies' in intent['slots']:
+        chosen_movie = intent['slots']['Movies']['value']
+        print(chosen_movie)
+        speech_output = "I now know you want to hear about " + chosen_movie
+        reprompt_text = "I now know you want to hear about " + chosen_movie
+        if (chosen_movie == "la la land"):
+            speech_output += ". It has Ryan Gosling and Emma Stone in it!"
+    else:
+        speech_output = "I'm not sure what movie you want to watch. " \
+                        "Please try again."
+        reprompt_text = "I'm not sure what movie you want to watch." \
                         "You can tell me which kind of movie you want to watch by saying I want to watch a romance."
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -101,9 +123,11 @@ def on_intent(intent_request, session):
     intent      = intent_request['intent']
     intent_name = intent_request['intent']['name']
 
-    #if intent_name == "GetMovie":
-    #    return set_color_in_session(intent, session)
-    if intent_name == "GetGenres":
+    print(intent_name)
+
+    if intent_name == "GetMovies":
+        return set_movie_in_session(intent, session)
+    elif intent_name == "GetGenres":
         return set_genre_in_session(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
