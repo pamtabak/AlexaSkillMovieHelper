@@ -69,6 +69,14 @@ def set_genre_in_session(intent, session):
             speech_output += ". I would recommend La La Land and Mamma Mia. Would you like to hear more about them?"
         elif (chosen_genre == "thriller"):
             speech_output += ". I have to admit that I do not link scary movies, so I suggest you choose another genre."
+        elif (chosen_genre == "romance"):
+            speech_output += ". I would recommend Titanic and The Notebook. Would you like to hear more about them?"
+        elif (chosen_genre == "drama"):
+            speech_output += ". I would recommend The Godfather and Moonlight. Would you like to hear more about them?"
+        elif (chosen_genre == "comedy"):
+            speech_output += ". Ha Ha Ha. I would recommend Baywatch and Hangover. Would you like to hear more about them?"
+        elif (chosen_genre == "action"):
+            speech_output += ". I love superhero movies! So what about Batman or Wonder Woman?"
     else:
         speech_output = "I'm not sure what kind of movie you want to watch. " \
                         "Please try again."
@@ -83,12 +91,28 @@ def set_movie_in_session(intent, session):
     should_end_session = False
 
     if 'Movies' in intent['slots']:
-        chosen_movie = intent['slots']['Movies']['value']
+        chosen_movie = intent['slots']['Movies']['value'].lower()
         print(chosen_movie)
         speech_output = "I now know you want to hear about " + chosen_movie
         reprompt_text = "I now know you want to hear about " + chosen_movie
         if (chosen_movie == "la la land"):
             speech_output += ". It has Ryan Gosling and Emma Stone in it!"
+        elif (chosen_movie == "mamma mia" or chosen_movie == "mama mia"):
+            speech_output += ". It`s movie made by Universal Pictures, staring Meryl Streep and Amanda Seyfried!"
+        elif (chosen_movie == "titanic"):
+            speech_output += ". It`s a real story about a person that do not share a piece of wood and let her beloved one die."
+        elif (chosen_movie == "the notebook"):
+            speech_output += ". It`s a movie that stares Ryan Gosling. It has Regina George on it as well, and we don`t like her."
+        elif (chosen_movie == "the godfather"):
+            speech_output += ". It`s a classic movie, starring Al Pacino. It`s about the italian mob."
+        elif (chosen_movie == "baywatch"):
+            speech_output += ". We all know about Baywatch. Or we`ve never watched Friends."
+        elif (chosen_movie == "hangover"):
+            speech_output += ". Basically, people getting drunk in Las Vegas. That`s enough, right?"
+        elif (chosen_movie == "batman"):
+            speech_output += ". NANANANANANA BATMAN!"
+        elif (chosen_movie == "wonder woman"):
+            speech_output += ". It`s a woman who kicks everyone`s butts."
     else:
         speech_output = "I'm not sure what movie you want to watch. " \
                         "Please try again."
@@ -153,9 +177,6 @@ def lambda_handler(event, context):
     prevent someone else from configuring a skill that sends requests to this
     function.
     """
-    # if (event['session']['application']['applicationId'] !=
-    #         "amzn1.echo-sdk-ams.app.[unique-value-here]"):
-    #     raise ValueError("Invalid Application ID")
 
     if event['session']['new']:
         on_session_started({'requestId': event['request']['requestId']},

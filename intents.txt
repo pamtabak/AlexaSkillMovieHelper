@@ -13,7 +13,7 @@
           "type": "LIST_OF_MOVIES"
         }
       ],
-      "intent": "GetMovie"
+      "intent": "GetMovies"
     },
     {
       "slots": [
